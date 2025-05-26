@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>بهارات يركا</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #d97706;
+            --background-color: #fefaf6;
+            --card-bg: #ffffff;
+            --text-color: #1e1e1e;
+            --border-color: #e2e2e2;
+            --shadow: rgba(0, 0, 0, 0.07) 0px 4px 8px;
+        }
+
+        body.dark {
+            --primary-color: #fbbf24;
+            --background-color: #1f1f1f;
+            --card-bg: #2a2a2a;
+            --text-color: #f5f5f5;
+            --border-color: #444;
+            --shadow: rgba(255, 255, 255, 0.05) 0px 4px 10px;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: var(--background-color);
+            color: var(--text-color);
+            padding: 20px;
+            margin: 0;
+            line-height: 1.6;
+            transition: background 0.4s, color 0.4s;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.2em;
+        }
+
+        h2 {
+            color: black;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2em;
+        }
+
+        #toggle-dark {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            padding: 6px 12px;
+            font-size: 14px;
+            border: none;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            z-index: 1000;
+        }
+
+            #toggle-dark:hover {
+                background-color: #b45309;
+            }
+
+        .main-layout {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .left-panel {
+            flex: 2;
+            min-width: 320px;
+        }
+
+        .right-panel {
+            flex: 1;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .size-title {
+            font-size: 1.6em;
+            color: var(--primary-color);
+            margin-bottom: 12px;
+        }
+
+        .size-image {
+            width: 100%;
+            max-width: 420px;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            margin-bottom: 20px;
+        }
+
+        #products {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .product {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            box-shadow: var(--shadow);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+            .product:hover {
+                transform: scale(1.01);
+                box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
+            }
+
+            .product img {
+                width: 90px;
+                height: 90px;
+                object-fit: cover;
+                margin-left: 20px;
+                border-radius: 10px;
+                border: 1px solid #ddd;
+            }
+
+        .info {
+            flex: 1;
+        }
+
+        select {
+            margin-top: 8px;
+            padding: 6px 10px;
+            font-size: 15px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            background: white;
+        }
+
+        body.dark select {
+            background: #444;
+            color: white;
+            border-color: #666;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+            .quantity-controls button {
+                width: 36px;
+                height: 36px;
+                font-size: 20px;
+                margin: 0 8px;
+                background-color: var(--primary-color);
+                color: white;
+                border: none;
+                border-radius: 6px;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+            }
+
+                .quantity-controls button:hover {
+                    background-color: #b45309;
+                }
+
+            .quantity-controls span {
+                font-size: 18px;
+                width: 30px;
+                text-align: center;
+            }
+
+        .total {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 20px 0;
+            color: var(--primary-color);
+        }
+
+        button#submit {
+            padding: 12px 40px;
+            font-size: 20px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+            button#submit:hover {
+                background-color: #b45309;
+            }
+
+        .done-message {
+            font-size: 20px;
+            color: green;
+            display: none;
+            margin-top: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .main-layout {
+                flex-direction: column;
+            }
+
+            .left-panel, .right-panel {
+                max-width: 100%;
+            }
+
+            .product {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+                .product img {
+                    margin-left: 0;
+                    margin-bottom: 12px;
+                }
+
+            .quantity-controls {
+                justify-content: flex-start;
+            }
+
+            h1 {
+                font-size: 1.6em;
+            }
+
+            body {
+                padding: 15px;
+            }
+
+            select {
+                width: 100%;
+            }
+        }
+    </style>
+   
+    <head>
+        <meta charset="UTF-8">
+        <title>بهارات يركا</title>
+        <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+        <style>
+            /* ... Keep all existing styles unchanged ... */
+        </style>
+    </head>
+   <body>
+    <button id="toggle-dark">🌙 الوضع الليلي</button>
+    <h1>Yarka Spices</h1>
+    <h2>نكهة من القلب - بهارات يركاوية | قريصة وبعد 😍</h2>
+
+    <div class="main-layout">
+        <div class="left-panel">
+            <div id="products"></div>
+        </div>
+        <div class="right-panel">
+            <h3 class="size-title">أحجامنا</h3>
+            <img src="sizes.jpg" alt="أحجام العلب" class="size-image">
+
+            <div style="margin-bottom: 12px;">
+                <label>طريقة التوصيل:</label><br>
+                <select id="delivery-method" onchange="handleDeliveryChange()">
+                    <option value="">اختر...</option>
+                    <option value="استلام">استلام</option>
+                    <option value="توصيل">توصيل</option>
+                </select>
+            </div>
+
+            <div id="pickup-options" style="display: none; margin-bottom: 12px;">
+                <label>اختر نقطة الاستلام:</label><br>
+                <select id="pickup-location">
+                    <option value="">اختر...</option>
+                    <option value="يركا">يركا</option>
+                    <option value="المغار">المغار</option>
+                </select>
+            </div>
+
+            <div id="delivery-options" style="display: none; margin-bottom: 12px;">
+                <label>المنطقة:</label><br>
+                <select id="delivery-region" onchange="handleRegionChange()">
+                    <option value="">اختر...</option>
+                    <option value="يركا">يركا</option>
+                    <option value="المغار">المغار</option>
+                    <option value="اخرى">اخرى</option>
+                </select>
+                <input type="text" id="delivery-location" placeholder="اسم المدينة" style="padding: 6px; width: 100%; display: none; margin-top: 8px;">
+            </div>
+
+            <div style="margin-bottom: 12px;">
+                <label>الاسم الكامل:</label><br>
+                <input type="text" id="full-name" placeholder="اكتب اسمك الكامل" style="padding: 6px; width: 100%;">
+            </div>
+
+            <div class="total">المجموع: ₪<span id="total">0</span></div>
+            <button id="submit">تم</button>
+            <div class="done-message" id="done-message">✅ تم الطلب!</div>
+        </div>
+        <div class="note-message" style="margin-top: 16px; background: #fff7ed; border: 1px solid #fbbf24; padding: 12px; border-radius: 8px; color: #92400e; font-size: 14px;">
+    ❄️ <strong>ملاحظة:</strong> توصيل الأغراض الي بحاجة لثلاجة (قريصة، فلفل كبة، دبس بندورة) رح يكون بس فالمناطق القريبة عالشمال 🥹<br>
+    🫶🏽 تواصلوا معنا لتفاصيل وتأكيد المنطقة<br><br>
+    📞 <strong>0528932705</strong>
+</div>
+
+    </div>
+
+    <script>
+        const productData = [
+            { name: "بهار الكبة", price: 12.5, unit: "50غم", img: "roz.jpg" },
+            { name: "بهار الرز", price: 10, unit: "50غم", img: "roz.jpg" },
+            { name: "بهار الرش (بهار ال 7 بهارات)", price: 12.5, unit: "50غم", img: "rush.jpg" },
+            { name: "زعتر / دقة بلدي", price: 4.5, unit: "50غم", img: "zaatr.jpg" },
+            { name: "قريصة (علبة 10 قراص مفرزة جاهزة للقلي)", price: 40, unit: "علبة", img: "kresa.jpg" },
+            { name: "فلفل كبة (نص كيلو)", price: 35, unit: "500 غم", img: "kobi.jpg", multiFlavors: ["🌶️ حار", "وسط", "حلو"] },
+            { name: "دبس بندورة", price: 10, unit: "قنينة 250 مل", img: "dibs.jpg" }
+        ];
+
+        let total = 0;
+        const quantities = productData.map((p, i) => p.multiFlavors ? [0, 0, 0] : 0);
+
+        function renderProducts() {
+            const container = document.getElementById("products");
+            productData.forEach((product, i) => {
+                const div = document.createElement("div");
+                div.className = "product";
+
+                let quantityControls = '';
+                if (product.multiFlavors) {
+                    quantityControls = product.multiFlavors.map((flavor, j) => `
+                        <div style="margin-top: 6px;">
+                            ${flavor}:
+                            <div class="quantity-controls">
+                                <button onclick="changeQuantity(${i}, ${j}, -1)">−</button>
+                                <span id="qty-${i}-${j}">0</span>
+                                <button onclick="changeQuantity(${i}, ${j}, 1)">+</button>
+                            </div>
+                        </div>
+                    `).join('');
+                } else {
+                    quantityControls = `
+                        <div class="quantity-controls">
+                            <button onclick="changeQuantity(${i}, null, -1)">−</button>
+                            <span id="qty-${i}">0</span>
+                            <button onclick="changeQuantity(${i}, null, 1)">+</button>
+                        </div>
+                    `;
+                }
+
+                div.innerHTML = `
+                    <img src="${product.img}" alt="${product.name}">
+                    <div class="info">
+                        <div><strong>${product.name}</strong> (${product.unit}) – ₪${product.price}</div>
+                        ${quantityControls}
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function changeQuantity(i, j, delta) {
+            if (j === null) {
+                quantities[i] = Math.max(0, quantities[i] + delta);
+                document.getElementById(`qty-${i}`).textContent = quantities[i];
+            } else {
+                quantities[i][j] = Math.max(0, quantities[i][j] + delta);
+                document.getElementById(`qty-${i}-${j}`).textContent = quantities[i][j];
+            }
+            calculateTotal();
+        }
+
+        function calculateTotal() {
+            total = 0;
+            for (let i = 0; i < productData.length; i++) {
+                const product = productData[i];
+                if (product.multiFlavors) {
+                    total += quantities[i].reduce((sum, q) => sum + q * product.price, 0);
+                } else {
+                    total += quantities[i] * product.price;
+                }
+            }
+
+            const method = document.getElementById("delivery-method").value;
+            if (method === "توصيل") {
+                const region = document.getElementById("delivery-region").value;
+                if (region === "يركا" || region === "المغار") total += 20;
+                else if (region === "اخرى") total += 40;
+            }
+
+            document.getElementById("total").textContent = total;
+        }
+
+        function handleDeliveryChange() {
+            const method = document.getElementById("delivery-method").value;
+            document.getElementById("pickup-options").style.display = method === "استلام" ? "block" : "none";
+            document.getElementById("delivery-options").style.display = method === "توصيل" ? "block" : "none";
+            calculateTotal();
+        }
+
+        function handleRegionChange() {
+            const region = document.getElementById("delivery-region").value;
+            const extraField = document.getElementById("delivery-location");
+            extraField.style.display = region === "اخرى" ? "block" : "none";
+            calculateTotal();
+        }
+
+        document.getElementById("submit").addEventListener("click", () => {
+            const name = document.getElementById("full-name").value.trim();
+            const method = document.getElementById("delivery-method").value;
+            let region = method === "استلام" ? document.getElementById("pickup-location").value : document.getElementById("delivery-region").value;
+            const otherCity = document.getElementById("delivery-location").value.trim();
+            if (!name || !method || !region || (region === "اخرى" && !otherCity)) {
+                alert("يرجى تعبئة جميع الحقول");
+                return;
+            }
+            const location = region === "اخرى" ? otherCity : region;
+
+            let message = `الاسم: ${name}\n`;
+            message += `الطريقة: ${method}\n`;
+            message += `المنطقة: ${location}\n`;
+            message += `\nتفاصيل الطلب:\n`;
+
+            for (let i = 0; i < productData.length; i++) {
+                const product = productData[i];
+                if (product.multiFlavors) {
+                    product.multiFlavors.forEach((flavor, j) => {
+                        if (quantities[i][j] > 0) {
+                            message += `${product.name} ${flavor}: ${quantities[i][j]}× (${product.unit})\n`;
+                        }
+                    });
+                } else if (quantities[i] > 0) {
+                    message += `${product.name}: ${quantities[i]}× (${product.unit})\n`;
+                }
+            }
+
+            const encoded = encodeURIComponent(message);
+            const phone = "0528932705";
+            const url = `https://wa.me/972${phone.slice(1)}?text=${encoded}`;
+
+            window.open(url, "_blank");
+            document.getElementById("done-message").style.display = "block";
+        });
+
+        document.getElementById("toggle-dark").addEventListener("click", () => {
+            document.body.classList.toggle("dark");
+            const btn = document.getElementById("toggle-dark");
+            btn.textContent = document.body.classList.contains("dark") ? "☀️ الوضع النهاري" : "🌙 الوضع الليلي";
+        });
+
+        renderProducts();
+    </script>
+</body>
+</html>
